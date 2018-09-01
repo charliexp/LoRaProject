@@ -29,21 +29,20 @@ void loop() {
   {
     Serial.println("You set Working mode is OK!");
     //Set up configuration for Wisnode
-    if (RAKLoRa.rk_initP2P(FREQ,7,0,1,8,14))
+    if (RAKLoRa.rk_initP2P(FREQ,7,0,1,8,10))
     {
       Serial.println("You init P2P parameter is OK!");
-      while (1)
-      {
                 //Mode Sending
-         Serial.println(RAKLoRa.sendRawCommand(F("at+txc=100,100,111111")));
-         delay(10000);
-         while(Serial1.available()==0)
-         {}
-         String ret = Serial1.readStringUntil('\n');
-         Serial.println(ret);
-
-        
-      }
+         Serial.println(RAKLoRa.sendRawCommand(F("at+rxc=1")));
+         delay(2000);
+         while(1)
+         {
+            while(Serial1.available()>0)
+            {
+            String ret = Serial1.readStringUntil('\n');
+            Serial.println(ret);
+            }
+         }
     }
   }
 }
